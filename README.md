@@ -34,17 +34,17 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
 
   - `$saturation`
 
-    Float (between 0 and 1) or percentage representing the color's saturation.
+    Float (between 0 and 1) or percentage representing the color's saturation.\
     1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
 
   - `$value`
 
-    Float (between 0 and 1) or percentage representing the color's brightness.
+    Float (between 0 and 1) or percentage representing the color's brightness.\
     1 or 100% is completely bright, while 0 is completely black.
 
   - `$alpha`
 
-    Float (between 0 and 1) or percentage representing the color's transparency.
+    Float (between 0 and 1) or percentage representing the color's transparency.\
     1 or 100% is completely opaque, while 0 is completely transparent.
 
   #### Usage example
@@ -64,17 +64,17 @@ ___
 
   - `$saturation`
 
-    Float (between 0 and 1) or percentage representing the color's saturation.
+    Float (between 0 and 1) or percentage representing the color's saturation.\
     1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
 
   - `$lightness`
 
-    Float (between 0 and 1) or percentage representing the color's lightness.
+    Float (between 0 and 1) or percentage representing the color's lightness.\
     1 or 100% is white, 0 is black, and 0.5 or 50% is "normal".
 
   - `$alpha`
 
-    Float (between 0 and 1) or percentage representing the color's transparency.
+    Float (between 0 and 1) or percentage representing the color's transparency.\
     1 or 100% is completely opaque, while 0 is completely transparent.
 
   #### Usage example
