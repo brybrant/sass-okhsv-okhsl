@@ -24,12 +24,12 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
 
 ## Functions
 
-### `okhsv_to_rgba($hue, $saturation, $value, $alpha)`
+### `okhsv_to_rgba( $hue, $saturation, $value, $alpha )`
 
-  Converts OkHSV color space to sRGB color space.
+  Converts **OkHSV** color space to sRGB color space.
 
   - `$hue`\
-    Number (in degrees) representing the color's hue angle in OkHSV color space.
+    Number (in degrees) representing the color's hue angle in **OkHSV** color space.
 
   - `$saturation`\
     Float (between 0 and 1) or percentage representing the color's saturation.\
@@ -50,12 +50,12 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
   ```
 ___
 
-### `okhsl_to_rgba($hue, $saturation, $lightness, $alpha)`
+### `okhsl_to_rgba( $hue, $saturation, $lightness, $alpha )`
 
-  Converts OkHSL color space to sRGB color space.
+  Converts **OkHSL** color space to sRGB color space.
 
   - `$hue`\
-    Number (in degrees) representing the color's hue angle in OkHSL color space.
+    Number (in degrees) representing the color's hue angle in **OkHSL** color space.
 
   - `$saturation`\
     Float (between 0 and 1) or percentage representing the color's saturation.\
@@ -76,7 +76,7 @@ ___
   ```
 ___
 
-### `color_to_hex($color)`
+### `color_to_hex( $color )`
 
   Converts any color to hexadecimal format
 
