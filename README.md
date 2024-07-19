@@ -28,18 +28,18 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
 
   Converts **OkHSV** color space to sRGB color space.
 
-  - `$hue`\
+  - `$hue` - Default: `0deg`\
     Number (in degrees) representing the color's hue angle in **OkHSV** color space.
 
-  - `$saturation`\
+  - `$saturation` - Default: `1`\
     Float (between 0 and 1) or percentage representing the color's saturation.\
     1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
 
-  - `$value`\
+  - `$value` - Default: `1`\
     Float (between 0 and 1) or percentage representing the color's brightness.\
     1 or 100% is completely bright, while 0 is completely black.
 
-  - `$alpha`\
+  - `$alpha` - Default: `1`\
     Float (between 0 and 1) or percentage representing the color's transparency.\
     1 or 100% is completely opaque, while 0 is completely transparent.
 
@@ -47,6 +47,8 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
 
   ```scss
   @debug okhsv_to_rgba(29deg, 1, 100%); // rgb(255, 0, 4)
+
+  @debug okhsv_to_rgba($hue: 170); // rgb(0, 255, 201)
   ```
 ___
 
@@ -54,18 +56,18 @@ ___
 
   Converts **OkHSL** color space to sRGB color space.
 
-  - `$hue`\
+  - `$hue` - Default value: `0deg`\
     Number (in degrees) representing the color's hue angle in **OkHSL** color space.
 
-  - `$saturation`\
+  - `$saturation` - Default value: `1`\
     Float (between 0 and 1) or percentage representing the color's saturation.\
     1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
 
-  - `$lightness`\
+  - `$lightness` - Default value: `0.5`\
     Float (between 0 and 1) or percentage representing the color's lightness.\
     1 or 100% is white, 0 is black, and 0.5 or 50% is "normal".
 
-  - `$alpha`\
+  - `$alpha` - Default value: `1`\
     Float (between 0 and 1) or percentage representing the color's transparency.\
     1 or 100% is completely opaque, while 0 is completely transparent.
 
@@ -73,6 +75,8 @@ ___
 
   ```scss
   @debug okhsl_to_rgba(265, 100%, 0.37); // rgb(14, 3, 255)
+
+  @debug okhsl_to_rgba($lightness: 40%); // rgb(172, 0, 89)
   ```
 ___
 
