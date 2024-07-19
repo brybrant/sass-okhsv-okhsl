@@ -1,0 +1,186 @@
+@use 'sass:color';
+@use 'sass:list';
+@use 'sass:math';
+@use 'sass:string';
+
+@use './utils' as utils;
+
+///
+/// Color to HEX
+///
+/// @param {color} $color - CSS color (rgb, hsl, etc)
+/// 
+/// @returns {hex} HEX color
+/// 
+/// @example scss - Without alpha
+///   color_to_hex(rgb(255, 0, 0))
+///   // #FF0000
+///
+/// @example scss - With alpha
+///   color_to_hex(hsla(0deg, 1, 1, 1))
+///   // #FF0000FF
+///
+@function color_to_hex($color) {
+  $ie_hex: color.ie-hex-str($color);
+  $color: string.slice($ie_hex, 4);
+  $alpha: string.slice($ie_hex, 2, 3);
+
+  @if $alpha == 'FF' {
+    @return string.unquote('#' + $color);
+  } @else {
+    @return string.unquote('#' + $color + $alpha);
+  }
+}
+
+// Credit to Björn Ottosson
+// https://github.com/bottosson/bottosson.github.io/blob/master/misc/colorpicker/colorconversion.js
+
+///
+/// OkHSL to RGB / RGBA
+///
+/// @param {number|degrees} $hue [0] - number (in degrees)
+/// @param {float|percentage} $saturation [1] - float or percentage
+/// @param {float|percentage} $lightness [0.5] - float or percentage
+/// @param {float|percentage} $alpha [1] - float or percentage
+/// 
+/// @returns {rgb|rgba} rgb() or rgba() color
+/// 
+/// @example scss - Without alpha
+///   okhsl_to_rgba(0deg, 100%, 59%)
+///   // rgb(255, 0, 136)
+///
+/// @example scss - With alpha
+///   okhsl_to_rgba(180deg, 1, 87.5%, 50%)
+///   // rgba(0, 255, 225, 0.5)
+///
+@function okhsl_to_rgba($hue: 0, $saturation: 1, $lightness: 0.5, $alpha: 1) {
+  $hue: utils.typecheck($hue, 'deg');
+  $saturation: utils.typecheck($saturation, '%');
+  $lightness: utils.typecheck($lightness, '%');
+  $alpha: utils.typecheck($alpha, '%');
+
+  @if $lightness == 1 {
+    @return if($alpha == 1, rgb(255, 255, 255), rgba(255, 255, 255, $alpha));
+  } @else if $lightness == 0 {
+    @return if($alpha == 1, rgb(0, 0, 0), rgba(0, 0, 0, $alpha));
+  } @else if $saturation == 0 {
+    $b: 255 * $lightness;
+    @return if($alpha == 1, rgb($b, $b, $b), rgba($b, $b, $b, $alpha));
+  }
+
+  $a_: math.cos(2 * math.$pi * $hue);
+  $b_: math.sin(2 * math.$pi * $hue);
+  $L: utils.toe_inv($lightness);
+
+  $Cs: utils.get_Cs($L, $a_, $b_);
+  $C_0: list.nth($Cs, 1);
+  $C_mid: list.nth($Cs, 2);
+  $C_max: list.nth($Cs, 3);
+
+  $C: 0; $t: 0; $k_0: 0; $k_1: 0; $k_2: 0;
+
+  @if $saturation < 0.8 {
+    $t: 1.25 * $saturation;
+    $k_0: 0;
+    $k_1: 0.8 * $C_0;
+    $k_2: 1 - math.div($k_1, $C_mid);
+  } @else {
+    $t: 5 * ($saturation - 0.8);
+    $k_0: $C_mid;
+    $k_1: math.div(0.2 * $C_mid * $C_mid * 1.25 * 1.25, $C_0);
+    $k_2: 1 - math.div($k_1, $C_max - $C_mid);
+  }
+
+  $C: $k_0 + math.div($t * $k_1, 1 - $k_2 * $t);
+
+  $rgb: utils.oklab_to_linear_srgb($L, $C * $a_, $C * $b_);
+
+  $red: 255 * utils.srgb_transfer_function(list.nth($rgb, 1));
+  $green: 255 * utils.srgb_transfer_function(list.nth($rgb, 2));
+  $blue: 255 * utils.srgb_transfer_function(list.nth($rgb, 3));
+
+  @if $alpha == 1 {
+    @return rgb($red, $green, $blue);
+  } @else {
+    @return rgba($red, $green, $blue, $alpha);
+  }
+}
+
+///
+/// OkHSV to RGB / RGBA
+///
+/// @param {number|degrees} $hue [0] - number (in degrees)
+/// @param {float|percentage} $saturation [1] - float or percentage
+/// @param {float|percentage} $value [1] - float or percentage
+/// @param {float|percentage} $alpha [1] - float or percentage
+/// 
+/// @returns {rgb|rgba} rgb() or rgba() color
+/// 
+/// @example scss - Without alpha
+///   okhsv_to_rgba(0deg, 100%, 100%)
+///   // rgb(255, 0, 136)
+///
+/// @example scss - With alpha
+///   okhsv_to_rgba(180deg, 1, 1, 50%)
+///   // rgba(0, 255, 225, 0.5)
+///
+@function okhsv_to_rgba($hue: 0, $saturation: 1, $value: 1, $alpha: 1) {
+  $hue: utils.typecheck($hue, 'deg');
+  $saturation: utils.typecheck($saturation, '%');
+  $value: utils.typecheck($value, '%');
+  $alpha: utils.typecheck($alpha, '%');
+
+  @if $value == 0 {
+    @return if($alpha == 1, rgb(0, 0, 0), rgba(0, 0, 0, $alpha));
+  } @else if $saturation == 0 {
+    $b: 255 * $value;
+    @return if($alpha == 1, rgb($b, $b, $b), rgba($b, $b, $b, $alpha));
+  }
+
+  $a_: math.cos(2 * math.$pi * $hue);
+  $b_: math.sin(2 * math.$pi * $hue);
+
+  $ST_max: utils.get_ST_max($a_, $b_);
+  $S_max: list.nth($ST_max, 1);
+  $S_0: 0.5;
+  $T: list.nth($ST_max, 2);
+  $k: 1 - math.div($S_0, $S_max);
+
+  $L_v: 1 - math.div($saturation * $S_0, $S_0 + $T - $T * $k * $saturation);
+  $C_v: math.div($saturation * $T * $S_0, $S_0 + $T - $T * $k * $saturation);
+
+  $L: $value * $L_v;
+  $C: $value * $C_v;
+
+  $L_vt: utils.toe_inv($L_v);
+  $C_vt: math.div($C_v * $L_vt, $L_v);
+
+  $L_new: utils.toe_inv($L);
+  $C: math.div($C * $L_new, $L);
+  $L: $L_new;
+
+  $rgb_scale: utils.oklab_to_linear_srgb($L_vt, $a_ * $C_vt, $b_ * $C_vt);
+
+  $max_rgb: math.max(
+    list.nth($rgb_scale, 1),
+    list.nth($rgb_scale, 2),
+    list.nth($rgb_scale, 3)
+  );
+
+  $scale_L: math.pow(math.div(1, $max_rgb), math.div(1, 3));
+
+  $L: $L * $scale_L;
+  $C: $C * $scale_L;
+
+  $rgb: utils.oklab_to_linear_srgb($L, $C * $a_, $C * $b_);
+
+  $red: 255 * utils.srgb_transfer_function(list.nth($rgb, 1));
+  $green: 255 * utils.srgb_transfer_function(list.nth($rgb, 2));
+  $blue: 255 * utils.srgb_transfer_function(list.nth($rgb, 3));
+
+  @if $alpha == 1 {
+    @return rgb($red, $green, $blue);
+  } @else {
+    @return rgba($red, $green, $blue, $alpha);
+  }
+}

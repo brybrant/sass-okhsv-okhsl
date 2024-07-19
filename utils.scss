@@ -1,0 +1,294 @@
+@use 'sass:list';
+@use 'sass:math';
+
+@function typecheck($value, $type) {
+  @if $type == 'deg' {
+    @if math.unit($value) == 'deg' {
+      $value: math.div($value % 360deg, 360deg);
+    } @else if math.is-unitless($value) {
+      $value: math.div($value % 360, 360);
+    } @else {
+      @error 'Parameter #{$value} must be number in degrees.';
+    }
+  } @else if $type == '%' {
+    @if math.unit($value) == '%' {
+      $value: math.div(math.clamp(0%, $value, 100%), 100%);
+    } @else if math.is-unitless($value) {
+      $value: math.clamp(0, $value, 1);
+    } @else {
+      @error 'Parameter #{$s} must be a float between 0 and 1, or percentage.';
+    }
+  }
+
+  @return $value;
+}
+
+// Credit to Björn Ottosson
+// https://github.com/bottosson/bottosson.github.io/blob/master/misc/colorpicker/colorconversion.js
+
+@function srgb_transfer_function($a: 0) {
+  @return if(
+    0.0031308 >= $a,
+    12.92 * $a,
+    1.055 * math.pow($a, 0.4166666666666667) - 0.055
+  );
+}
+
+$_magicL1: 0.3963377774; $_magicL2: 0.2158037573;
+$_magicM1: 0.1055613458; $_magicM2: 0.0638541728;
+$_magicS1: 0.0894841775; $_magicS2: 1.2914855480;
+
+$_magicR1: 4.0767416621; $_magicR2: 3.3077115913; $_magicR3: 0.2309699292;
+$_magicG1: 1.2684380046; $_magicG2: 2.6097574011; $_magicG3: 0.3413193965;
+$_magicB1: 0.0041960863; $_magicB2: 0.7034186147; $_magicB3: 1.7076147010;
+
+@function oklab_to_linear_srgb($L: 0, $a: 0, $b: 0) {
+  $l_: $L + $_magicL1 * $a + $_magicL2 * $b;
+  $m_: $L - $_magicM1 * $a - $_magicM2 * $b;
+  $s_: $L - $_magicS1 * $a - $_magicS2 * $b;
+
+  $l: math.pow($l_, 3);
+  $m: math.pow($m_, 3);
+  $s: math.pow($s_, 3);
+
+  @return (
+    +$_magicR1 * $l - $_magicR2 * $m + $_magicR3 * $s,
+    -$_magicG1 * $l + $_magicG2 * $m - $_magicG3 * $s,
+    -$_magicB1 * $l - $_magicB2 * $m + $_magicB3 * $s
+  );
+}
+
+@function toe_inv($x: 0) {
+  $k_1: 0.206;
+  $k_2: 0.03;
+  $k_3: math.div(1 + $k_1, 1 + $k_2);
+  @return math.div($x * $x + $k_1 * $x, $k_3 * ($x + $k_2));
+}
+
+@function _compute_max_saturation($a: 0, $b: 0) {
+  $k0: 0; $k1: 0; $k2: 0; $k3: 0; $k4: 0; $wl: 0; $wm: 0; $ws: 0;
+
+  @if (-1.88170328 * $a - 0.80936493 * $b > 1) {
+    // Red component
+    $k0: +1.19086277;
+    $k1: +1.76576728;
+    $k2: +0.59662641;
+    $k3: +0.75515197;
+    $k4: +0.56771245;
+    $wl: +$_magicR1;
+    $wm: -$_magicR2;
+    $ws: +$_magicR3;
+  } @else if (1.81444104 * $a - 1.19445276 * $b > 1) {
+    // Green component
+    $k0: +0.73956515;
+    $k1: -0.45954404;
+    $k2: +0.08285427;
+    $k3: +0.1254107;
+    $k4: +0.14503204;
+    $wl: -$_magicG1;
+    $wm: +$_magicG2;
+    $ws: -$_magicG3;
+  } @else {
+    // Blue component
+    $k0: +1.35733652;
+    $k1: -0.00915799;
+    $k2: -1.1513021;
+    $k3: -0.50559606;
+    $k4: +0.00692167;
+    $wl: -$_magicB1;
+    $wm: -$_magicB2;
+    $ws: +$_magicB3;
+  }
+
+  $S: $k0 + $k1 * $a + $k2 * $b + $k3 * $a * $a + $k4 * $a * $b;
+
+  $k_l: +$_magicL1 * $a + $_magicL2 * $b;
+  $k_m: -$_magicM1 * $a - $_magicM2 * $b;
+  $k_s: -$_magicS1 * $a - $_magicS2 * $b;
+
+  $l_: 1 + $S * $k_l;
+  $m_: 1 + $S * $k_m;
+  $s_: 1 + $S * $k_s;
+
+  $l: math.pow($l_, 3);
+  $m: math.pow($m_, 3);
+  $s: math.pow($s_, 3);
+
+  $l_dS: 3 * $k_l * $l_ * $l_;
+  $m_dS: 3 * $k_m * $m_ * $m_;
+  $s_dS: 3 * $k_s * $s_ * $s_;
+
+  $l_dS2: 6 * $k_l * $k_l * $l_;
+  $m_dS2: 6 * $k_m * $k_m * $m_;
+  $s_dS2: 6 * $k_s * $k_s * $s_;
+
+  $f: $wl * $l + $wm * $m + $ws * $s;
+  $f1: $wl * $l_dS + $wm * $m_dS + $ws * $s_dS;
+  $f2: $wl * $l_dS2 + $wm * $m_dS2 + $ws * $s_dS2;
+
+  $S: $S - math.div($f * $f1, $f1 * $f1 - 0.5 * $f * $f2);
+
+  @return $S;
+}
+
+@function _find_cusp($a: 0, $b: 0) {
+  $S_cusp: _compute_max_saturation($a, $b);
+
+  $rgb_at_max: oklab_to_linear_srgb(1, $S_cusp * $a, $S_cusp * $b);
+
+  $max_rgb: math.max(
+    list.nth($rgb_at_max, 1),
+    list.nth($rgb_at_max, 2),
+    list.nth($rgb_at_max, 3)
+  );
+
+  $L_cusp: math.pow(math.div(1, $max_rgb), math.div(1, 3));
+  $C_cusp: $L_cusp * $S_cusp;
+
+  @return ($L_cusp, $C_cusp);
+}
+
+@function find_gamut_intersection(
+  $a: 0, $b: 0, $L1: 0, $C1: 0, $L0: 0, $cusp: false
+) {
+  @if not $cusp {
+    $cusp: _find_cusp($a, $b);
+  }
+
+  $L_cusp: list.nth($cusp, 1);
+  $C_cusp: list.nth($cusp, 2);
+
+  $t: 0;
+
+  @if (($L1 - $L0) * $C_cusp - ($L_cusp - $L0) * $C1 <= 0) {
+    $t: math.div($C_cusp * $L0, $C1 * $L_cusp + $C_cusp * ($L0 - $L1));
+  } @else {
+    $t: math.div($C_cusp * ($L0 - 1), $C1 * ($L_cusp - 1) + $C_cusp * ($L0 - $L1));
+
+    $dL: $L1 - $L0;
+    $dC: $C1;
+
+    $k_l: +$_magicL1 * $a + $_magicL2 * $b;
+    $k_m: -$_magicM1 * $a - $_magicM2 * $b;
+    $k_s: -$_magicS1 * $a - $_magicS2 * $b;
+
+    $l_dt: $dL + $dC * $k_l;
+    $m_dt: $dL + $dC * $k_m;
+    $s_dt: $dL + $dC * $k_s;
+
+    $L: $L0 * (1 - $t) + $t * $L1;
+    $C: $t * $C1;
+
+    $l_: $L + $C * $k_l;
+    $m_: $L + $C * $k_m;
+    $s_: $L + $C * $k_s;
+
+    $l: math.pow($l_, 3);
+    $m: math.pow($m_, 3);
+    $s: math.pow($s_, 3);
+
+    $ldt: 3 * $l_dt * $l_ * $l_;
+    $mdt: 3 * $m_dt * $m_ * $m_;
+    $sdt: 3 * $s_dt * $s_ * $s_;
+
+    $ldt2: 6 * $l_dt * $l_dt * $l_;
+    $mdt2: 6 * $m_dt * $m_dt * $m_;
+    $sdt2: 6 * $s_dt * $s_dt * $s_;
+
+    $r: $_magicR1 * $l - $_magicR2 * $m + $_magicR3 * $s - 1;
+    $r1: $_magicR1 * $ldt - $_magicR2 * $mdt + $_magicR3 * $sdt;
+    $r2: $_magicR1 * $ldt2 - $_magicR2 * $mdt2 + $_magicR3 * $sdt2;
+
+    $u_r: math.div($r1, $r1 * $r1 - 0.5 * $r * $r2);
+    $t_r: -$r * $u_r;
+
+    $g: -$_magicG1 * $l + $_magicG2 * $m - $_magicG3 * $s - 1;
+    $g1: -$_magicG1 * $ldt + $_magicG2 * $mdt - $_magicG3 * $sdt;
+    $g2: -$_magicG1 * $ldt2 + $_magicG2 * $mdt2 - $_magicG3 * $sdt2;
+
+    $u_g: math.div($g1, $g1 * $g1 - 0.5 * $g * $g2);
+    $t_g: -$g * $u_g;
+
+    $b: -$_magicB1 * $l - $_magicB2 * $m + $_magicB3 * $s - 1;
+    $b1: -$_magicB1 * $ldt - $_magicB2 * $mdt + $_magicB3 * $sdt;
+    $b2: -$_magicB1 * $ldt2 - $_magicB2 * $mdt2 + $_magicB3 * $sdt2;
+
+    $u_b: math.div($b1, $b1 * $b1 - 0.5 * $b * $b2);
+    $t_b: -$b * $u_b;
+
+    $t_r: if($u_r >= 0, $t_r, 10e5);
+    $t_g: if($u_g >= 0, $t_g, 10e5);
+    $t_b: if($u_b >= 0, $t_b, 10e5);
+
+    $t: $t + math.min($t_r, $t_g, $t_b);
+  }
+
+  @return $t;
+}
+
+@function get_ST_max($a_: 0, $b_: 0, $cusp: false) {
+  @if not $cusp {
+    $cusp: _find_cusp($a_, $b_);
+  }
+
+  $L: list.nth($cusp, 1);
+  $C: list.nth($cusp, 2);
+  @return (math.div($C, $L), math.div($C, 1 - $L));
+}
+
+@function get_Cs($L: 0, $a_: 0, $b_: 0) {
+  $cusp: _find_cusp($a_, $b_);
+
+  $C_max: find_gamut_intersection($a_, $b_, $L, 1, $L, $cusp);
+  $ST_max: get_ST_max($a_, $b_, $cusp);
+
+  $S_mid:
+    0.11516993 +
+    math.div(1,
+        7.4477897 +
+        4.1590124 * $b_ +
+        $a_ *
+          (-2.19557347 +
+            1.75198401 * $b_ +
+            $a_ *
+              (-2.13704948 -
+                10.02301043 * $b_ +
+                $a_ * (-4.24894561 + 5.38770819 * $b_ + 4.69891013 * $a_))));
+
+  $T_mid:
+    0.11239642 +
+    math.div(1,
+        +1.6132032 -
+        0.68124379 * $b_ +
+        $a_ *
+          (+0.40370612 +
+            0.90148123 * $b_ +
+            $a_ *
+              (-0.27087943 +
+                0.6122399 * $b_ +
+                $a_ * (+0.00299215 - 0.45399568 * $b_ - 0.14661872 * $a_))));
+
+  $k: math.div(
+    $C_max, math.min($L * list.nth($ST_max, 1), (1 - $L) * list.nth($ST_max, 2))
+  );
+
+  $C_mid: 0;
+
+  $C_a: $L * $S_mid;
+  $C_b: (1 - $L) * $T_mid;
+
+  $C_mid: 0.9 * $k * math.sqrt(math.sqrt(
+    math.div(1, math.div(1, math.div(math.pow($C_a, 4) + 1, math.pow($C_b, 4))))
+  ));
+
+  $C_0: 0;
+
+  $C_a: $L * 0.4;
+  $C_b: (1 - $L) * 0.8;
+
+  $C_0: math.sqrt(
+    math.div(1, math.div(1, math.div($C_a * $C_a + 1, $C_b * $C_b)))
+  );
+
+  @return ($C_0, $C_mid, $C_max);
+}
