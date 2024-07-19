@@ -50,7 +50,7 @@
 ///   // rgb(255, 0, 136)
 ///
 /// @example scss - With alpha
-///   okhsl_to_rgba(180deg, 1, 87.5%, 50%)
+///   okhsl_to_rgba(180deg, 1, 87.85%, 50%)
 ///   // rgba(0, 255, 225, 0.5)
 ///
 @function okhsl_to_rgba($hue: 0, $saturation: 1, $lightness: 0.5, $alpha: 1) {
