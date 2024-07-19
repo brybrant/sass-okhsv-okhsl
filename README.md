@@ -56,18 +56,18 @@ ___
 
   Converts **OkHSL** color space to sRGB color space.
 
-  - `$hue` - Default value: `0deg`\
+  - `$hue` - Default: `0deg`\
     Number (in degrees) representing the color's hue angle in **OkHSL** color space.
 
-  - `$saturation` - Default value: `1`\
+  - `$saturation` - Default: `1`\
     Float (between 0 and 1) or percentage representing the color's saturation.\
     1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
 
-  - `$lightness` - Default value: `0.5`\
+  - `$lightness` - Default: `0.5`\
     Float (between 0 and 1) or percentage representing the color's lightness.\
     1 or 100% is white, 0 is black, and 0.5 or 50% is "normal".
 
-  - `$alpha` - Default value: `1`\
+  - `$alpha` - Default: `1`\
     Float (between 0 and 1) or percentage representing the color's transparency.\
     1 or 100% is completely opaque, while 0 is completely transparent.
 
