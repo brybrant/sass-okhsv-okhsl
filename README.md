@@ -1,8 +1,8 @@
 # OkHSV / OkHSL to RGB Sass Functions
 
-Sass functions to convert OkHSV and OkHSL to sRGB
+Sass functions to convert OkHSV and OkHSL to sRGB.
 
-Credit to [Björn Ottosson](https://bottosson.github.io/)
+Credit to [Björn Ottosson](https://bottosson.github.io/posts/colorpicker/)
 
 ## Install
 
@@ -28,22 +28,18 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
 
   Converts OkHSV color space to sRGB color space.
 
-  - `$hue`
-
+  - `$hue`\
     Number (in degrees) representing the color's hue angle in OkHSV color space.
 
-  - `$saturation`
-
+  - `$saturation`\
     Float (between 0 and 1) or percentage representing the color's saturation.\
     1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
 
-  - `$value`
-
+  - `$value`\
     Float (between 0 and 1) or percentage representing the color's brightness.\
     1 or 100% is completely bright, while 0 is completely black.
 
-  - `$alpha`
-
+  - `$alpha`\
     Float (between 0 and 1) or percentage representing the color's transparency.\
     1 or 100% is completely opaque, while 0 is completely transparent.
 
@@ -58,22 +54,18 @@ ___
 
   Converts OkHSL color space to sRGB color space.
 
-  - `$hue`
-
+  - `$hue`\
     Number (in degrees) representing the color's hue angle in OkHSL color space.
 
-  - `$saturation`
-
+  - `$saturation`\
     Float (between 0 and 1) or percentage representing the color's saturation.\
     1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
 
-  - `$lightness`
-
+  - `$lightness`\
     Float (between 0 and 1) or percentage representing the color's lightness.\
     1 or 100% is white, 0 is black, and 0.5 or 50% is "normal".
 
-  - `$alpha`
-
+  - `$alpha`\
     Float (between 0 and 1) or percentage representing the color's transparency.\
     1 or 100% is completely opaque, while 0 is completely transparent.
 
@@ -88,8 +80,7 @@ ___
 
   Converts any color to hexadecimal format
 
-  - `$color`
-
+  - `$color`\
     Any valid CSS color (rgb, hsl, etc.)
 
   #### Usage example
