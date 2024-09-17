@@ -14,5 +14,10 @@
   },
   "peerDependencies": {
     "sass": ">1.32.0"
+  },
+  "peerDependenciesMeta": {
+    "sass": {
+      "optional": true
+    }
   }
 }
