@@ -1,19 +1,16 @@
 {
   "name": "@brybrant/sass-okhsv-okhsl",
   "description": "Sass functions to convert OkHSV and OkHSL to sRGB",
+  "keywords": ["OkHSV", "OkHSL"],
   "author": "brybrant",
   "license": "MIT",
   "version": "1.0.0",
-  "keywords": [
-    "OkHSV",
-    "OkHSL"
-  ],
   "files": [
     "*.scss"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/brybrant/sass-okhsv-okhsl.git"
+    "url": "git+https://github.com/brybrant/sass-okhsv-okhsl.git"
   },
   "peerDependencies": {
     "sass": ">1.32.0"
