@@ -29,7 +29,7 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
   Converts **OkHSV** color space to sRGB color space.
 
   - #### `$hue`
-    A [`number`](https://mdn.io/css_number) or an [`angle`](https://mdn.io/angle) representing the color's [hue](https://mdn.io/hue) angle in **OkHSV** color space.\
+    A [`number`](https://mdn.io/css_number) or an [`angle`](https://mdn.io/angle) representing the color's [`hue`](https://mdn.io/hue) angle in **OkHSV** color space.\
     &#9642; Default: `0deg`
 
   - #### `$saturation`
@@ -43,7 +43,7 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
     &#9642; Default: `1`
 
   - #### `$alpha`
-    An [alpha value](https://mdn.io/alpha-value) representing the color's transparency.\
+    An [`alpha value`](https://mdn.io/alpha-value) representing the color's transparency.\
     `1` or `100%` is completely opaque, while `0` is completely transparent.\
     &#9642; Default: `1`
 
@@ -61,7 +61,7 @@ ___
   Converts **OkHSL** color space to sRGB color space.
 
   - #### `$hue`
-    A [`number`](https://mdn.io/css_number) or an [`angle`](https://mdn.io/angle) representing the color's [hue](https://mdn.io/hue) angle in **OkHSL** color space.\
+    A [`number`](https://mdn.io/css_number) or an [`angle`](https://mdn.io/angle) representing the color's [`hue`](https://mdn.io/hue) angle in **OkHSL** color space.\
     &#9642; Default: `0deg`
 
   - #### `$saturation`
@@ -75,7 +75,7 @@ ___
     &#9642; Default: `0.5`
 
   - #### `$alpha`
-    An [alpha value](https://mdn.io/alpha-value) representing the color's transparency.\
+    An [`alpha value`](https://mdn.io/alpha-value) representing the color's transparency.\
     `1` or `100%` is completely opaque, while `0` is completely transparent.\
     &#9642; Default: `1`
 
