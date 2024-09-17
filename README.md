@@ -7,7 +7,7 @@ Credit to [Björn Ottosson](https://bottosson.github.io/posts/colorpicker/)
 ## Install
 
 ```bash
-$ npm i -D github:brybrant/sass-okhsv-okhsl
+$ npm i -D @brybrant/sass-okhsv-okhsl
 ```
 
 ## Setup
@@ -28,20 +28,28 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
 
   Converts **OkHSV** color space to sRGB color space.
 
-  - `$hue` - Default: `0deg`\
-    Number (in degrees) representing the color's hue angle in **OkHSV** color space.
+  - #### `$hue`
+    Number (in degrees) representing the color's hue angle in **OkHSV** color space.\
+    &#9642; Type: `number`\
+    &#9642; Default: `0deg`
 
-  - `$saturation` - Default: `1`\
+  - #### `$saturation`
     Float (between 0 and 1) or percentage representing the color's saturation.\
-    1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
+    1 or 100% is completely saturated, while 0 is completely unsaturated (gray).\
+    &#9642; Type: `number`\
+    &#9642; Default: `1`
 
-  - `$value` - Default: `1`\
+  - #### `$value`
     Float (between 0 and 1) or percentage representing the color's brightness.\
-    1 or 100% is completely bright, while 0 is completely black.
+    1 or 100% is completely bright, while 0 is completely black.\
+    &#9642; Type: `number`\
+    &#9642; Default: `1`
 
-  - `$alpha` - Default: `1`\
+  - #### `$alpha`
     Float (between 0 and 1) or percentage representing the color's transparency.\
-    1 or 100% is completely opaque, while 0 is completely transparent.
+    1 or 100% is completely opaque, while 0 is completely transparent.\
+    &#9642; Type: `number`\
+    &#9642; Default: `1`
 
   #### Usage example
 
@@ -56,20 +64,28 @@ ___
 
   Converts **OkHSL** color space to sRGB color space.
 
-  - `$hue` - Default: `0deg`\
-    Number (in degrees) representing the color's hue angle in **OkHSL** color space.
+  - #### `$hue`
+    Number (in degrees) representing the color's hue angle in **OkHSL** color space.\
+    &#9642; Type: `number`\
+    &#9642; Default: `0deg`
 
-  - `$saturation` - Default: `1`\
+  - #### `$saturation`
     Float (between 0 and 1) or percentage representing the color's saturation.\
-    1 or 100% is completely saturated, while 0 is completely unsaturated (gray).
+    1 or 100% is completely saturated, while 0 is completely unsaturated (gray).\
+    &#9642; Type: `number`\
+    &#9642; Default: `1`
 
-  - `$lightness` - Default: `0.5`\
+  - #### `$lightness`
     Float (between 0 and 1) or percentage representing the color's lightness.\
-    1 or 100% is white, 0 is black, and 0.5 or 50% is "normal".
+    1 or 100% is white, 0 is black, and 0.5 or 50% is "normal".\
+    &#9642; Type: `number`\
+    &#9642; Default: `0.5`
 
-  - `$alpha` - Default: `1`\
+  - #### `$alpha`
     Float (between 0 and 1) or percentage representing the color's transparency.\
-    1 or 100% is completely opaque, while 0 is completely transparent.
+    1 or 100% is completely opaque, while 0 is completely transparent.\
+    &#9642; Type: `number`\
+    &#9642; Default: `1`
 
   #### Usage example
 
@@ -84,7 +100,7 @@ ___
 
   Converts any color to hexadecimal format
 
-  - `$color`\
+  - #### `$color`
     Any valid CSS color (rgb, hsl, etc.)
 
   #### Usage example
