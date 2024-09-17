@@ -29,26 +29,22 @@ $blue_hex: convert.color_to_hex($blue); // #0E03FF
   Converts **OkHSV** color space to sRGB color space.
 
   - #### `$hue`
-    Number (in degrees) representing the color's hue angle in **OkHSV** color space.\
-    &#9642; Type: `number`\
+    A [`number`](https://mdn.io/css_number) or an [`angle`](https://mdn.io/angle) representing the color's [hue](https://mdn.io/hue) angle in **OkHSV** color space.\
     &#9642; Default: `0deg`
 
   - #### `$saturation`
-    Float (between 0 and 1) or percentage representing the color's saturation.\
-    1 or 100% is completely saturated, while 0 is completely unsaturated (gray).\
-    &#9642; Type: `number`\
+    A float (between 0 and 1) or [`percentage`](https://mdn.io/percentage) representing the color's saturation.\
+    `1` or `100%` is completely saturated, while `0` is completely unsaturated (gray).\
     &#9642; Default: `1`
 
   - #### `$value`
-    Float (between 0 and 1) or percentage representing the color's brightness.\
-    1 or 100% is completely bright, while 0 is completely black.\
-    &#9642; Type: `number`\
+    A float (between 0 and 1) or [`percentage`](https://mdn.io/percentage) representing the color's brightness.\
+    `1` or `100%` is completely bright, while `0` is completely black.\
     &#9642; Default: `1`
 
   - #### `$alpha`
-    Float (between 0 and 1) or percentage representing the color's transparency.\
-    1 or 100% is completely opaque, while 0 is completely transparent.\
-    &#9642; Type: `number`\
+    An [alpha value](https://mdn.io/alpha-value) representing the color's transparency.\
+    `1` or `100%` is completely opaque, while `0` is completely transparent.\
     &#9642; Default: `1`
 
   #### Usage example
@@ -65,26 +61,22 @@ ___
   Converts **OkHSL** color space to sRGB color space.
 
   - #### `$hue`
-    Number (in degrees) representing the color's hue angle in **OkHSL** color space.\
-    &#9642; Type: `number`\
+    A [`number`](https://mdn.io/css_number) or an [`angle`](https://mdn.io/angle) representing the color's [hue](https://mdn.io/hue) angle in **OkHSL** color space.\
     &#9642; Default: `0deg`
 
   - #### `$saturation`
-    Float (between 0 and 1) or percentage representing the color's saturation.\
-    1 or 100% is completely saturated, while 0 is completely unsaturated (gray).\
-    &#9642; Type: `number`\
+    A float (between 0 and 1) or [`percentage`](https://mdn.io/percentage) representing the color's saturation.\
+    `1` or `100%` is completely saturated, while `0` is completely unsaturated (gray).\
     &#9642; Default: `1`
 
   - #### `$lightness`
-    Float (between 0 and 1) or percentage representing the color's lightness.\
-    1 or 100% is white, 0 is black, and 0.5 or 50% is "normal".\
-    &#9642; Type: `number`\
+    A float (between 0 and 1) or [`percentage`](https://mdn.io/percentage) representing the color's lightness.\
+    `1` or `100%` is white, `0` is black, and `0.5` or `50%` is "normal".\
     &#9642; Default: `0.5`
 
   - #### `$alpha`
-    Float (between 0 and 1) or percentage representing the color's transparency.\
-    1 or 100% is completely opaque, while 0 is completely transparent.\
-    &#9642; Type: `number`\
+    An [alpha value](https://mdn.io/alpha-value) representing the color's transparency.\
+    `1` or `100%` is completely opaque, while `0` is completely transparent.\
     &#9642; Default: `1`
 
   #### Usage example
@@ -98,10 +90,10 @@ ___
 
 ### `color_to_hex( $color )`
 
-  Converts any color to hexadecimal format
+  Converts any color to [hexadecimal](https://mdn.io/hex-color) format.
 
   - #### `$color`
-    Any valid CSS color (rgb, hsl, etc.)
+    Any valid [CSS color](https://mdn.io/color_value) (rgb, hsl, etc.)
 
   #### Usage example
 
