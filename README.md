@@ -1,5 +1,7 @@
 # OkHSV / OkHSL to RGB Sass Functions
 
+[<img src='https://img.shields.io/npm/v/%40brybrant%2Fsass-okhsv-okhsl'>](https://www.npmjs.com/package/@brybrant/sass-okhsv-okhsl)
+
 Sass functions to convert OkHSV and OkHSL to sRGB.
 
 Credit to [Björn Ottosson](https://bottosson.github.io/posts/colorpicker/)
