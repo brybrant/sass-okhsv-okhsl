@@ -15,7 +15,7 @@ $ npm i -D @brybrant/sass-okhsv-okhsl
 ## Setup
 
 ```scss
-@use '~/node_modules/@brybrant/sass-okhsv-okhsl' as convert;
+@use 'pkg:@brybrant/sass-okhsv-okhsl' as convert;
 
 $red: convert.okhsv_to_rgba(29deg, 100%, 100%); // rgb(255, 0, 4)
 

@@ -4,10 +4,15 @@
   "keywords": ["OkHSV", "OkHSL"],
   "author": "brybrant",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "files": [
     "*.scss"
   ],
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brybrant/sass-okhsv-okhsl.git"
