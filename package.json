@@ -8,6 +8,9 @@
   "files": [
     "*.scss"
   ],
+  "scripts": {
+    "publish": "publish --access public"
+  },
   "exports": {
     ".": {
       "sass": "./_index.scss"
