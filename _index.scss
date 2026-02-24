@@ -60,10 +60,18 @@
   $alpha: utils.typecheck($alpha, '%');
 
   @if $value == 0 {
-    @return if($alpha == 1, rgb(0, 0, 0), rgba(0, 0, 0, $alpha));
+    @if $alpha == 1 {
+      @return rgb(0, 0, 0);
+    } @else {
+      @return rgba(0, 0, 0, $alpha);
+    }
   } @else if $saturation == 0 {
     $b: 255 * $value;
-    @return if($alpha == 1, rgb($b, $b, $b), rgba($b, $b, $b, $alpha));
+    @if $alpha == 1 {
+      @return rgb($b, $b, $b);
+    } @else {
+      @return rgba($b, $b, $b, $alpha);
+    }
   }
 
   $a_: math.cos(2 * math.$pi * $hue);
@@ -139,12 +147,24 @@
   $alpha: utils.typecheck($alpha, '%');
 
   @if $lightness == 1 {
-    @return if($alpha == 1, rgb(255, 255, 255), rgba(255, 255, 255, $alpha));
+    @if $alpha == 1 {
+      @return rgb(255, 255, 255);
+    } @else {
+      @return rgba(255, 255, 255, $alpha);
+    }
   } @else if $lightness == 0 {
-    @return if($alpha == 1, rgb(0, 0, 0), rgba(0, 0, 0, $alpha));
+    @if $alpha == 1 {
+      @return rgb(0, 0, 0);
+    } @else {
+      @return rgba(0, 0, 0, $alpha);
+    }
   } @else if $saturation == 0 {
     $b: 255 * $lightness;
-    @return if($alpha == 1, rgb($b, $b, $b), rgba($b, $b, $b, $alpha));
+    @if $alpha == 1 {
+      @return rgb($b, $b, $b);
+    } @else {
+      @return rgba($b, $b, $b, $alpha);
+    }
   }
 
   $a_: math.cos(2 * math.$pi * $hue);

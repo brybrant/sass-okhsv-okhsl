@@ -27,11 +27,11 @@
 // https://github.com/bottosson/bottosson.github.io/blob/master/misc/colorpicker/colorconversion.js
 
 @function srgb_transfer_function($a: 0) {
-  @return if(
-    0.0031308 >= $a,
-    12.92 * $a,
-    1.055 * math.pow($a, 0.4166666666666667) - 0.055
-  );
+  @if 0.0031308 >= $a {
+    @return 12.92 * $a;
+  } @else {
+    @return 1.055 * math.pow($a, 0.4166666666666667) - 0.055;
+  }
 }
 
 $_magicL1: 0.3963377774; $_magicL2: 0.2158037573;
@@ -216,9 +216,17 @@ $_magicB1: 0.0041960863; $_magicB2: 0.7034186147; $_magicB3: 1.7076147010;
     $u_b: math.div($b1, $b1 * $b1 - 0.5 * $b * $b2);
     $t_b: -$b * $u_b;
 
-    $t_r: if($u_r >= 0, $t_r, 10e5);
-    $t_g: if($u_g >= 0, $t_g, 10e5);
-    $t_b: if($u_b >= 0, $t_b, 10e5);
+    @if $u_r < 0 {
+      $t_r: 10e5;
+    }
+
+    @if $u_g < 0 {
+      $t_g: 10e5;
+    }
+
+    @if $u_b < 0 {
+      $t_b: 10e5;
+    }
 
     $t: $t + math.min($t_r, $t_g, $t_b);
   }
